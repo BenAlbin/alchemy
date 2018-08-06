@@ -85,7 +85,7 @@ defmodule Alchemy.Cogs do
   Cogs.disable(:ping)
   ```
   """
-  
+
 
   @doc """
   Sets the client's command prefix to a specific string.
@@ -180,6 +180,29 @@ defmodule Alchemy.Cogs do
                                   unquote(options))
     end
   end
+
+  @doc """
+  Gets the id of the user that triggered a command.
+
+  Simply returns the id since it just gets the information
+  from the message struct.
+  """
+  defmacro user_id! do
+    quote do
+      var!(message).author.id
+    end
+  end
+
+  @doc """
+  Gets the id of the channel in which a command was triggered.
+
+  Simply returns the channel id since it just gets the information from
+  the message struct.
+  """
+  defmacro channel_id! do
+    var!(message).channel_id
+  end
+
   @doc """
   Gets the id of the guild from which a command was triggered.
 
@@ -557,7 +580,7 @@ defmodule Alchemy.Cogs do
   @doc """
   Returns a map from command name (string) to the command information.
 
-  Each command is either `{module, arity, function_name}`, or 
+  Each command is either `{module, arity, function_name}`, or
   `{module, arity, function_name, parser}`.
 
   This can be useful for providing some kind of help command, or telling
@@ -595,7 +618,7 @@ defmodule Alchemy.Cogs do
   Returns the permission bitset of the current member in the channel the command
   was called from.
 
-  If you just want the base permissions of the member in the guild, 
+  If you just want the base permissions of the member in the guild,
   see `guild_permissions`.
   Returns `{:ok, perms}`, or `{:error, why}`. Fails if not called from
   a guild, or the guild or the member couldn't be fetched from the cache.
