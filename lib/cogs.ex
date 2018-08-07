@@ -193,6 +193,12 @@ defmodule Alchemy.Cogs do
     end
   end
 
+  defmacro user! do
+    quote do
+      var!(message).author
+    end
+  end
+
   @doc """
   Gets the id of the channel in which a command was triggered.
 
@@ -200,7 +206,9 @@ defmodule Alchemy.Cogs do
   the message struct.
   """
   defmacro channel_id! do
-    var!(message).channel_id
+    quote do
+      var!(message).channel_id
+    end
   end
 
   @doc """
